@@ -12,7 +12,7 @@ const users = [];
 function checksExistsUserAccount(request, response, next) {
   const { username } = request.headers;
 
-  const user = users.find(user => user.username = username);
+  const user = users.find(user => user.username === username);
 
   if(!user)
     return response.status(404).json({ error: 'User not found' });
@@ -25,7 +25,7 @@ function checksExistsUserAccount(request, response, next) {
 app.post('/users', (request, response) => {
   const { name, username } = request.body;
 
-  const usernameExists = users.find(user => user.username = username);
+  const usernameExists = users.find(user => user.username === username);
 
   if(usernameExists)
     return response.status(400).json({ error: 'Username already in use' });
@@ -106,7 +106,7 @@ app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
 
   user.todos = user.todos.filter(todo => todo.id !== id);
 
-  return response.send();
+  return response.status(204).send();
 });
 
 module.exports = app;
